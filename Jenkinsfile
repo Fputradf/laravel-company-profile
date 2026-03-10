@@ -2,17 +2,20 @@ node {
     checkout scm
     // Tahap Build
     stage ("Build") {
-        docker.image('shippingdocker/php-composer:7.4').inside('-u root') {
-            sh 'rm composer.lock'
-            sh 'composer install'
+        // Ganti image ke versi yang mendukung PHP 8.2
+        docker.image('composer:latest').inside('-u root') {
+            sh 'rm -f composer.lock'
+            sh 'composer install --ignore-platform-reqs' 
         }
     }
     // Tahap Testing
     stage ("Testing") {
-        docker.image('ubuntu').inside('-u root') {
-            sh 'echo "Ini adalah test"'
+        docker.image('php:8.2-cli').inside('-u root') {
+            sh 'php -v'
+            sh 'echo "PHP version check success"'
         }
     }
+}
     // Tahap Deploy ke Produksi
     stage ("Deploy") {
         docker.image('agung3wi/alpine-rsync:1.1').inside('-u root') {
