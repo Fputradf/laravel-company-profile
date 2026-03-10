@@ -23,7 +23,8 @@ node {
             sshagent (credentials: ['ssh-prod']) {
                 sh 'mkdir -p ~/.ssh'
                 sh 'ssh-keyscan -H "$PROD_HOST" > ~/.ssh/known_hosts'
-                sh "rsync -rav --delete ./ ubuntu@$PROD_HOST:/home/ubuntu/prod.kelasdevops.xyz/ --exclude=.env --exclude=storage --exclude=.git"
+                // GANTI 'ubuntu' menjadi 'hhx'
+                sh "rsync -rav --delete ./ hhx@$PROD_HOST:/home/hhx/prod.kelasdevops.xyz/ --exclude=.env --exclude=storage --exclude=.git"
             }
         }
     }
